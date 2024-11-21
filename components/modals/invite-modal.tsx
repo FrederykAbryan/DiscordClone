@@ -1,5 +1,5 @@
 "use client"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useModal } from "@/hooks/use-modal-store"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -9,7 +9,7 @@ import { useOrigin } from "@/hooks/use-origin"
 import { useState } from "react"
 import axios from "axios"
 export const InviteModal = () => {
-    const { onOpen,isOpen, onClose, type, data } = useModal();
+    const { onOpen, isOpen, onClose, type, data } = useModal();
     const { server } = data;
     const origin = useOrigin();
     const isModalOpen = isOpen && type === "invite";
@@ -20,7 +20,6 @@ export const InviteModal = () => {
     const onCopy = () => {
         navigator.clipboard.writeText(inviteUrl);
         setCopied(true);
-
         setTimeout(() => {
             setCopied(false);
         }, 1000);
@@ -42,6 +41,7 @@ export const InviteModal = () => {
         <Dialog open={isModalOpen} onOpenChange={onClose}>
             <DialogContent className="bg-white text-black p-0 overflow-hidden">
                 <DialogHeader className="pt-8 px-6">
+                    <DialogDescription></DialogDescription>
                     <DialogTitle className="text-2xl text-center font-bold">
                         Invite Friends
                     </DialogTitle>
@@ -58,7 +58,11 @@ export const InviteModal = () => {
                             className="bg-zinc-300/50 border-0
                         focus-visible:ring-0 text-black
                         focus-visible:ring-offset-0"
-                            value={inviteUrl} />
+                            value={inviteUrl}
+                            onChange={(e) => { 
+                                console.log(e.target.value);
+                             }}
+                        />
                         <Button disabled={isLoading} onClick={onCopy} size={"icon"}>
                             {copied ? <Check className="h-4 w-4" /> :
                                 <Copy className="h-4 w-4" />
